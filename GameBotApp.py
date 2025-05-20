@@ -1,21 +1,24 @@
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-
+# Функция обработки команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Кнопка, которая откроет Web App
+    await update.message.reply_text("Привет! Напиши /game чтобы открыть рулетку.")
+
+# Функция обработки команды /game
+async def game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton("🎁 Открыть кейс", web_app=WebAppInfo(url="https://yourdomain.com/lootbox"))]
+        [InlineKeyboardButton("🎰 Открыть рулетку", web_app=WebAppInfo(url="https://sayoroby.github.io/TelegramBotGame/"))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text("Добро пожаловать! Нажмите кнопку ниже, чтобы открыть кейс:", reply_markup=reply_markup)
+    await update.message.reply_text("Нажми кнопку ниже, чтобы открыть игру:", reply_markup=reply_markup)
 
-def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.run_polling()
-
+# Запуск бота
 if __name__ == "__main__":
-    main()
+    app = ApplicationBuilder().token("7411217061:AAEwC4okb5s8VfOg3HhgBYoMEMf3jB4Az4w").build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("game", game))
+
+    print("Бот запущен...")
+    app.run_polling()
